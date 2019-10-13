@@ -1,8 +1,17 @@
 <template>
-  <div class="app" ref="map"></div>
+  <div class="app">
+    <div class="map-wrap" ref="map"></div>
+    <el-date-picker
+      class="map-data-picker"
+      v-model="innerTime"
+      type="date"
+      placeholder="选择日期">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex';
   import { Map, TileLayer } from 'maptalks';
   import { getDevicePixelRatio } from 'main/utils';
   import { showPopover } from './Component/Popup';
@@ -11,8 +20,14 @@
     name: 'App',
     data() {
       return {
+        innerTime: '',
         dialogVisible: false,
       };
+    },
+    computed: {
+      ...mapState({
+        time: state => state.map.time,
+      }),
     },
     mounted() {
       this.initMap();
@@ -41,14 +56,35 @@
         })
       },
     },
+    watch: {
+      time(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.innerTime = newValue;
+        }
+      },
+      innerTime(time) {
+        this.$store.dispatch('actionTime', time);
+      },
+    },
   };
 </script>
 
-<style scoped>
-  .app {
+<style lang="less" scoped>
+  .app, .map-wrap {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
+
+    .map-data-picker {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1;
+    }
+  }
+
+  .app {
+    position: relative;
   }
 </style>
