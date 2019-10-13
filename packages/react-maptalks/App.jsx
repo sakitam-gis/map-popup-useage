@@ -1,8 +1,3 @@
-/**
- * @author Kuitos
- * @since 2019-05-16
- */
-
 import { Button, Modal, version as antdVersion } from 'antd';
 import React, { useState, version } from 'react';
 

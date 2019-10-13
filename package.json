@@ -4,7 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run dev",
+    "bootstrap": "lerna bootstrap",
+    "start": "lerna run start",
     "build": "lerna run build",
     "clean": "lerna clean",
     "precommit": "lint-staged",
@@ -36,7 +37,6 @@
   },
   "devDependencies": {
     "qiankun": "^1.2.0",
-    "@umijs/fabric": "^1.1.10",
     "autoprefixer": "^9.4.3",
     "lerna": "^3.17.0",
     "lerna-changelog": "^0.8.2",

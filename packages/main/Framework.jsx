@@ -1,10 +1,8 @@
-/**
- * @author Kuitos
- * @since 2019-05-16
- */
-
 import React from 'react';
+import { Spin, Icon } from 'antd';
 import style from './index.less';
+
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 export default function Framework(props) {
 
@@ -26,14 +24,12 @@ export default function Framework(props) {
         <nav>
           <ol>
             <li><a onClick={() => goto('react app', '/react')}>react16 + antd3</a></li>
-            <li><a onClick={() => goto('react15 app', '/15react15')}>react15 + antd2</a></li>
             <li><a onClick={() => goto('vue app', '/vue')}>vue2 + element2</a></li>
           </ol>
         </nav>
       </header>
-      {loading ? <div>loading...</div> : null}
+      {loading ? <Spin indicator={antIcon} /> : null}
       <div dangerouslySetInnerHTML={{ __html: content }} className={style.appContainer}/>
     </>
-
   );
 }

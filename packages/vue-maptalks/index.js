@@ -1,9 +1,7 @@
-/**
- * @author Kuitos
- * @since 2019-05-16
- */
-import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'maptalks/dist/maptalks.css';
+
+import ElementUI from 'element-ui';
 import Vue from 'vue';
 import App from './App';
 import './index.css';
@@ -13,7 +11,7 @@ Vue.use(ElementUI);
 let instance = null;
 
 export async function bootstrap() {
-  console.log('react app bootstraped');
+  console.log('vue app bootstraped');
 }
 
 export async function mount(props) {

@@ -1,8 +1,5 @@
-/**
- * @author Kuitos
- * @since 2019-05-16
- */
 import 'antd/dist/antd.min.css';
+import 'maptalks/dist/maptalks.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
