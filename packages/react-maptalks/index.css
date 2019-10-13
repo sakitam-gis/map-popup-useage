@@ -1,8 +1,12 @@
-#reactRoot, .map-wrap {
+#reactRoot, .map-wrap, .app {
   width: 100%;
   height: 100%;
   padding: 0;
   margin: 0;
+}
+
+.app {
+  position: relative;
 }
 
 .own-popup {
@@ -10,4 +14,11 @@
   background: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
+}
+
+.map-data-picker {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
 }

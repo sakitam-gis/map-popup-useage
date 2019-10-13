@@ -1,8 +1,12 @@
+import 'antd/es/date-picker/style/css';
 import React, {
   useState,
   useRef,
   useEffect,
 } from 'react';
+
+import DatePicker from 'antd/es/date-picker';
+import moment from 'moment';
 
 import { Map, TileLayer, ui } from 'maptalks';
 
@@ -13,6 +17,8 @@ import { getPopupContent } from './Component/Popup';
 export default function App() {
   let map = null;
   const mapRef = useRef(null);
+
+  const dateFormat = 'YYYY-MM-DD';
 
   const [inited, setInit] = useState(false);
 
@@ -56,11 +62,18 @@ export default function App() {
     }
   }, []);
 
-  return (<div
-    className="map-wrap"
-    ref={mapRef}
-    style={{
-      position: 'relative'
-    }}>
+  return (<div className="app">
+    <div
+      className="map-wrap"
+      ref={mapRef}
+      style={{
+        position: 'relative'
+      }}>
+    </div>
+
+    <DatePicker
+      className="map-data-picker"
+      defaultValue={moment('2015-01-01', dateFormat)}
+      format={dateFormat} />
   </div>);
 }
