@@ -1,28 +1,20 @@
-import 'antd/es/calendar/style/css';
 import React, {
   useState,
   useRef,
   useEffect,
-  useCallback
 } from 'react';
-
-import ReactDOM from 'react-dom';
-
-import Calendar from 'antd/es/calendar';
 
 import { Map, TileLayer, ui } from 'maptalks';
 
 import { getDevicePixelRatio } from 'main/utils';
+import MapCalendar from './Component/Popup/src/Calendar';
+import { getPopupContent } from './Component/Popup';
 
 export default function App() {
   let map = null;
   const mapRef = useRef(null);
 
   const [inited, setInit] = useState(false);
-
-  function onPanelChange(value, mode) {
-    console.log(value, mode);
-  }
 
   useEffect(() => {
     if (inited) {
@@ -40,10 +32,6 @@ export default function App() {
       });
 
       const coordinate = map.getCenter().toFixed(3);
-      const content = document.createElement('div');
-      content.className = 'own-popup';
-      ReactDOM.render(<Calendar fullscreen={false} onPanelChange={onPanelChange} />, content);
-
       const options = {
         single: false,
         width: 300,
@@ -51,7 +39,9 @@ export default function App() {
         custom: true,
         dx: -3,
         dy: -12,
-        content
+        content: getPopupContent(MapCalendar, 'own-popup', {
+          fullscreen: false,
+        })
       };
       const infoWindow = new ui.InfoWindow(options);
       infoWindow.addTo(map).show(coordinate);

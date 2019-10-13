@@ -15,7 +15,7 @@
   },
   "changelog": {
     "labels": {
-      "tag: add": "🌟 新增",
+      "tag: feat": "🌟 新增",
       "tag: edit": "💄 修改",
       "tag: fixed": "🐞 修复 ",
       "tag: remove": "🗑 移除",
