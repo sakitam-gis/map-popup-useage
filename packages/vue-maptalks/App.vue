@@ -1,40 +1,44 @@
 <template>
-  <div class="app">
-    Hello Vue
-    <el-button @click="dialogVisible = true" type="text">open Dialog</el-button>
-
-    <el-dialog
-      :visible.sync="dialogVisible"
-      title="提示"
-      width="30%">
-      <span>{{framework}}</span>
-      <span class="dialog-footer" slot="footer">
-    <el-button @click="dialogVisible = false" type="primary">ok</el-button>
-  </span>
-    </el-dialog>
-  </div>
+  <div class="app" ref="map"></div>
 </template>
 
 <script>
-  import ElementUI from 'element-ui';
-  import Vue from 'vue';
+  import { Map, TileLayer } from 'maptalks';
+  import { getDevicePixelRatio } from 'main/utils';
+  import { showPopover } from './Component/Popup';
 
   export default {
     name: 'App',
     data() {
       return {
         dialogVisible: false,
-        framework: `hello Vue ${Vue.version} element-ui ${ElementUI.version}`,
       };
     },
+    mounted() {
+      this.initMap();
+    },
     methods: {
-      handleClose(done) {
-        this.$confirm('confirm to close？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {
-          });
+      initMap() {
+        const map = new Map(this.$refs.map, {
+          center: [105.08052356963802, 36.04231948670001],
+          zoom: 5,
+          minZoom:1,
+          maxZoom:19,
+          centerCross: true,
+          baseLayer: new TileLayer('tile', {
+            urlTemplate: `https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}${getDevicePixelRatio() > 1.5 ? '@2x' : ''}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejh2N21nMzAxMmQzMnA5emRyN2lucW0ifQ.jSE-g2vsn48Ry928pqylcg`
+          }),
+          // devicePixelRatio: 2
+        });
+
+        const coordinates = map.getCenter().toFixed(3).toArray();
+
+        showPopover('image', map, {
+          coordinates,
+          width: 450,
+          // height: 400,
+          autoCenter: false,
+        })
       },
     },
   };
@@ -42,6 +46,9 @@
 
 <style scoped>
   .app {
-    color: bisque;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
 </style>

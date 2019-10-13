@@ -1,10 +1,11 @@
 import 'element-ui/lib/theme-chalk/index.css';
 import 'maptalks/dist/maptalks.css';
+import './index.css';
 
 import ElementUI from 'element-ui';
 import Vue from 'vue';
 import App from './App';
-import './index.css';
+import store from './store';
 
 Vue.use(ElementUI);
 
@@ -18,6 +19,7 @@ export async function mount(props) {
   console.log('props from main framework', props);
   instance = new Vue({
     el: '#vueRoot',
+    store,
     render: h => h(App),
   });
 }
@@ -26,3 +28,5 @@ export async function unmount() {
   instance.$destroy();
   instance = null;
 }
+
+mount();
