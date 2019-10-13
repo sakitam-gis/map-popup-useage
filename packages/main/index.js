@@ -65,7 +65,7 @@ registerMicroApps(
   },
 );
 
-setDefaultMountApp('/react');
+// setDefaultMountApp('/react');
 runAfterFirstMounted(() => console.info('first app mounted'));
 
 start();

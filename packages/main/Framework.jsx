@@ -1,5 +1,8 @@
+import 'antd/es/spin/style/css';
+import 'antd/es/icon/style/css';
 import React from 'react';
-import { Spin, Icon } from 'antd';
+import Icon from 'antd/es/icon';
+import Spin from 'antd/es/spin';
 import style from './index.less';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;

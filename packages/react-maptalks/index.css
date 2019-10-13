@@ -1,3 +1,13 @@
-main:after {
-  content: 'global react style';
+#reactRoot, .map-wrap {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.own-popup {
+  width: 300px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
 }
