@@ -1,0 +1,17 @@
+language: node_js
+node_js: node
+cache:
+  directories:
+    - node_modules
+before_install: npm i -g yarn
+install: yarn
+
+# https://iamakulov.com/notes/install-google-chrome-on-travis/
+addons:
+  apt:
+    packages:
+      - google-chrome-stable
+
+script:
+  - yarn run bootstrap
+  - yarn run build
