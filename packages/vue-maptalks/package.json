@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel serve index.html --public-url ./ --global vueapp --port 7101",
+    "start": "cross-env NODE_ENV=development parcel serve index.html --global vueapp --port 7101",
+    "build": "cross-env NODE_ENV=production parcel build index.html --public-url ./",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

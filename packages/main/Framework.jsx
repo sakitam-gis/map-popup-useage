@@ -1,6 +1,8 @@
 import 'antd/es/spin/style/css';
 import 'antd/es/icon/style/css';
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
 import Icon from 'antd/es/icon';
 import Spin from 'antd/es/spin';
 import style from './index.less';
@@ -11,7 +13,10 @@ export default function Framework(props) {
 
   const { content, loading } = props;
 
-  function goto(title, href) {
+  const [className, setClassName] = useState('react');
+
+  function goto(id, title, href) {
+    setClassName(id);
     window.history.pushState({}, title, href);
   }
 
@@ -24,12 +29,11 @@ export default function Framework(props) {
   return (
     <>
       <header className={style.header}>
-        <nav>
-          <ol>
-            <li><a onClick={() => goto('react app', '/react')}>react16 + antd3</a></li>
-            <li><a onClick={() => goto('vue app', '/vue')}>vue2 + element2</a></li>
-          </ol>
-        </nav>
+        <div className={style.bg} />
+        <div className={style.links}>
+          <a className={`${style.linkA} ${className === 'react' ? style.active : ''}`} onClick={() => goto('react', 'react app', '/react')}>ReactMap</a>
+          <a className={`${style.linkA} ${className === 'vue' ? style.active : ''}`} onClick={() => goto('vue', 'vue app', '/vue')}>VueMap</a>
+        </div>
       </header>
       {loading ? <Spin indicator={antIcon} /> : null}
       <div dangerouslySetInnerHTML={{ __html: content }} className={style.appContainer}/>

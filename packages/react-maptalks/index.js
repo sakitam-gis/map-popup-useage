@@ -22,5 +22,9 @@ export async function unmount() {
   ReactDOM.unmountComponentAtNode(document.getElementById('reactRoot'));
 }
 
-mount();
+if (process.env.NODE_ENV === 'development') {
+  // 或, `process.env.NODE_ENV !== 'production'`
+}
+
+// mount();
 

@@ -1,43 +1,71 @@
+a {
+  outline: none;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   padding: 0;
 
   main {
-    margin: 30px;
+    //margin: 30px;
+    width: 100%;
+    height: 100%;
   }
 }
 
 
 .header {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  white-space: nowrap;
+  position: relative;
+  z-index: 10001;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: all .3s;
+  max-height: 64px;
+  line-height: 64px;
+  overflow: hidden;
+  user-select: none;
 
-  > nav > ol {
-    margin: 0;
-    font-size: 14px;
-    color: blue;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+  .bg {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: #041725;
+  }
 
-    > li {
-      box-sizing: content-box;
-      line-height: 20px;
-      font-variant: tabular-nums;
-      font-feature-settings: "tnum";
-      list-style: decimal;
-      padding: 0;
-      margin: 0;
+  .links {
+  }
+
+  .linkA {
+    line-height: 58px;
+    color: #8d9ba3;
+    text-transform: uppercase;
+    margin-left: 40px;
+    border-style: solid;
+    border-width: 3px 0 0;
+    border-color: transparent;
+
+    &:hover {
+      border-color: #8d9ba3;
     }
+  }
 
-    a {
-      color: blue;
-      text-decoration-line: underline;
-    }
+  .active {
+    color: #ededed;
+    border-color: #00ade6;
+    border-image: linear-gradient(90deg, #00ade6 0, #05e3d5);
+    border-image-slice: 2;
   }
 }
 
 .appContainer {
-  margin-top: 50px;
+  margin-top: 0px;
+  height: calc(100% - 64px);
 }
 
 
