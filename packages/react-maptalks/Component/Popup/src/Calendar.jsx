@@ -1,37 +1,53 @@
 import 'antd/es/calendar/style/css';
 import Calendar from 'antd/es/calendar';
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
-// import { actionTime } from '../../../redux/actions';
+import { actionTime } from '../../../redux/actions';
 
-// Map Redux state to component props
+const FORMAT = 'YYYY-MM-DD';
+
 function mapStateToProps(state) {
   return {
-    value: state.time
+    value: state.timer.time
   }
 }
 
-// Map Redux actions to component props
 function mapDispatchToProps(dispatch) {
   return {
-    onPanelChange: (time) => dispatch({
-      type: 'ACTION_UPDATE_TIME',
-      payload: {
-        time,
-      },
-    })
+    onSelect: (time) => dispatch(actionTime({
+      time,
+    }))
   }
 }
 
 function MapCalendar(props) {
-  function onPanelChange(value, mode) {
-    console.log(value, mode);
-    if (props.onPanelChange) {
-      props.onPanelChange(value.format('YYYY-MM-DD'));
+  const { value } = props;
+
+  const [timeValue, setTimeValue] = useState(moment());
+  function onSelect(value, mode) {
+    if (props.onSelect) {
+      props.onSelect(value.format(FORMAT));
     }
   }
 
-  return (<Calendar fullscreen={props.fullscreen} onPanelChange={onPanelChange} />)
+  useEffect(() => {
+    if (value) {
+      setTimeValue(moment(value, FORMAT))
+    }
+
+    return () => {
+    }
+  }, [value]);
+
+  return (<Calendar
+    value={timeValue || moment()}
+    fullscreen={props.fullscreen}
+    onSelect={onSelect}
+  />)
 }
 
 export default connect(

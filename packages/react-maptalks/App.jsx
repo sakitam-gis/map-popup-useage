@@ -7,20 +7,41 @@ import React, {
 
 import DatePicker from 'antd/es/date-picker';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import { Map, TileLayer, ui } from 'maptalks';
 
 import { getDevicePixelRatio } from 'main/utils';
 import MapCalendar from './Component/Popup/src/Calendar';
 import { getPopupContent } from './Component/Popup';
+import { actionTime } from './redux/actions';
 
-export default function App() {
+function mapStateToProps(state) {
+  return {
+    value: state.timer.time
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return { dispatch }
+}
+
+function App(props) {
   let map = null;
+  const { value, dispatch } = props;
+
+  const [timeValue, setTimeValue] = useState(moment());
   const mapRef = useRef(null);
 
   const dateFormat = 'YYYY-MM-DD';
 
   const [inited, setInit] = useState(false);
+
+  function onChange (value) {
+    dispatch(actionTime({
+      time: value.format(dateFormat)
+    }));
+  }
 
   useEffect(() => {
     if (inited) {
@@ -62,6 +83,15 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (value) {
+      setTimeValue(moment(value, dateFormat))
+    }
+
+    return () => {
+    }
+  }, [value]);
+
   return (<div className="app">
     <div
       className="map-wrap"
@@ -73,7 +103,13 @@ export default function App() {
 
     <DatePicker
       className="map-data-picker"
-      defaultValue={moment('2015-01-01', dateFormat)}
+      onChange={onChange}
+      value={timeValue}
       format={dateFormat} />
   </div>);
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
