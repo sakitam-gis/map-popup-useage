@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const ghpages = require('gh-pages');
 const exec = require('child_process').execSync;
+const processTpl = require('./process-tpl');
 
 const baseDir = 'packages/';
 const distDir = '/dist/';
@@ -28,9 +29,17 @@ async function copyAndRebuild() {
     await fs.copy(reactDist, siteDir);
     const reactData = fs.readFileSync(`${reactDist}index.html`, 'utf8');
 
+    const /*{ template, scripts, styles }*/ vueTpl = processTpl(vueData, './');
+    const /*{ template, scripts, styles }*/ reactTpl = processTpl(reactData, './');
+
     fs.writeFileSync(`${baseDir}main/tempString.js`, `// ! don't edit this file, this file will auto write by deploy.js
-export const code_vue = \`${vueData}\`;
-export const code_react = \`${reactData}\`;
+export const code_vue_html = \`${vueTpl.template}\`;
+export const code_vue_scripts = \[${vueTpl.scripts.map(item => '\'' + item + '\'')}\];
+export const code_vue_styles = \[${vueTpl.styles.map(item => '\'' + item + '\'')}\];
+
+export const code_react_html = \`${reactTpl.template}\`;
+export const code_react_scripts = \[${reactTpl.scripts.map(item => '\'' + item + '\'')}\];
+export const code_react_styles = \[${reactTpl.styles.map(item => '\'' + item + '\'')}\];
 `);
 
     await fs.remove(mainDist);
@@ -43,11 +52,11 @@ export const code_react = \`${reactData}\`;
 }
 
 copyAndRebuild().then(res => {
-  // ghpages.publish(path.join(__dirname, './_site'), function (err) {
-  //   if (err) {
-  //     console.log(err)
-  //   } else {
-  //     console.log('publish to github page done')
-  //   }
-  // });
+  ghpages.publish(path.join(__dirname, './_site'), function (err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('publish to github page done')
+    }
+  });
 }).catch(e => console.log(e));

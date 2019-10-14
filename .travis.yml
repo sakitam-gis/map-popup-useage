@@ -13,5 +13,6 @@ addons:
       - google-chrome-stable
 
 script:
+  - yarn
   - yarn run bootstrap
   - yarn run build

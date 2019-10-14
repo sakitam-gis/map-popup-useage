@@ -2,7 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start } from 'qiankun';
 import Framework from './Framework';
-import { code_vue, code_react } from './tempString';
+import {
+  code_react_html,
+  code_react_scripts,
+  code_react_styles,
+  code_vue_html,
+  code_vue_scripts,
+  code_vue_styles
+} from './tempString';
 
 const mode = 'hash' || 'history';
 
@@ -54,9 +61,9 @@ registerMicroApps(
     {
       name: 'react app',
       entry: process.env.NODE_ENV === 'development' ? '//localhost:7100' : (process.env.NODE_ENV === 'production' ? {
-        html: code_react,
-        scripts: [],
-        styles: [],
+        html: code_react_html,
+        scripts: code_react_scripts,
+        styles: code_react_styles,
       } : ''),
       render,
       activeRule: genActiveRule(`${baseUrl}/react`)
@@ -64,9 +71,9 @@ registerMicroApps(
     {
       name: 'vue app',
       entry: process.env.NODE_ENV === 'development' ? '//localhost:7101' : (process.env.NODE_ENV === 'production' ? {
-        html: code_vue,
-        scripts: [],
-        styles: [],
+        html: code_vue_html,
+        scripts: code_vue_scripts,
+        styles: code_vue_styles,
       } : ''),
       render,
       activeRule: genActiveRule(`${baseUrl}/vue`)
