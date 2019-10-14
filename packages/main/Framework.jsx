@@ -6,18 +6,26 @@ import React, {
 import Icon from 'antd/es/icon';
 import Spin from 'antd/es/spin';
 import style from './index.less';
+import { replaceHash } from './utils';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 export default function Framework(props) {
 
-  const { content, loading } = props;
+  const { content, loading, mode } = props;
 
   const [className, setClassName] = useState('react');
 
   function goto(id, title, href) {
     setClassName(id);
-    window.history.pushState({}, title, href);
+
+    if (mode === 'history') {
+      window.history.pushState({}, title, href);
+    }
+
+    if (mode === 'hash') {
+      replaceHash(href);
+    }
   }
 
   function setInterval() {
@@ -26,13 +34,15 @@ export default function Framework(props) {
     }, 1000);
   }
 
+  const baseUrl = '';
+
   return (
     <>
       <header className={style.header}>
         <div className={style.bg} />
         <div className={style.links}>
-          <a className={`${style.linkA} ${className === 'react' ? style.active : ''}`} onClick={() => goto('react', 'react app', '/react')}>ReactMap</a>
-          <a className={`${style.linkA} ${className === 'vue' ? style.active : ''}`} onClick={() => goto('vue', 'vue app', '/vue')}>VueMap</a>
+          <a className={`${style.linkA} ${className === 'react' ? style.active : ''}`} onClick={() => goto('react', 'react app', `${baseUrl}/react`)}>ReactMap</a>
+          <a className={`${style.linkA} ${className === 'vue' ? style.active : ''}`} onClick={() => goto('vue', 'vue app', `${baseUrl}/vue`)}>VueMap</a>
         </div>
       </header>
       {loading ? <Spin indicator={antIcon} /> : null}

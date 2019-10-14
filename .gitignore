@@ -11,3 +11,4 @@ _site/
 packages/**/node_modules
 packages/**/dist
 packages/**/.cache
+dist/

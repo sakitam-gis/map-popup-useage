@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development parcel serve index.html --port 7099",
     "build": "cross-env NODE_ENV=production parcel build index.html --public-url ./",
+    "rebuild": "cross-env NODE_ENV=production parcel build index.html --public-url ./ --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

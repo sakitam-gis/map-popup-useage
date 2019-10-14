@@ -2,54 +2,74 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start } from 'qiankun';
 import Framework from './Framework';
+import { code_vue, code_react } from './tempString';
+
+const mode = 'hash' || 'history';
+
+function getHash (location) {
+  location = location || window.location;
+  let href = location.href;
+  const index = href.indexOf('#');
+  if (index < 0) return '';
+
+  href = href.slice(index + 1);
+  const searchIndex = href.indexOf('?');
+  if (searchIndex < 0) {
+    const hashIndex = href.indexOf('#');
+    if (hashIndex > -1) {
+      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex)
+    } else href = decodeURI(href)
+  } else {
+    if (searchIndex > -1) {
+      href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
+    }
+  }
+
+  return href;
+}
 
 // let app = null;
 
 function render({ appContent, loading }) {
   const container = document.getElementById('container');
-  ReactDOM.render(<Framework loading={loading} content={appContent}/>, container);
+  ReactDOM.render(<Framework loading={loading} content={appContent} mode={mode} />, container);
 }
 
 function genActiveRule(routerPrefix) {
-  return location => location.pathname.startsWith(routerPrefix);
+  if (mode === 'history') {
+    return location => location.pathname.startsWith(routerPrefix);
+  }
+
+  if (mode === 'hash') {
+    return (location) => getHash(location) === routerPrefix;
+  }
 }
 
 render({ loading: true });
+
+const baseUrl = '';
 
 registerMicroApps(
   [
     {
       name: 'react app',
-//       entry: {
-//         scripts: [
-//           'qiankun/examples/react16/dist/react16.e31bb0bc.js'
-//         ],
-//         styles: [
-//           'qiankun/examples/react16/dist/react16.e31bb0bc.css'
-//         ],
-//         html: `<!DOCTYPE html>
-// <html lang="en">
-// <head>
-//   <meta charset="UTF-8">
-//   <title>Title</title>
-// <link rel="stylesheet" href="qiankun/examples/react16/dist/react16.e31bb0bc.css"></head>
-// <body>
-//
-// <div id="reactRoot"></div>
-// <script src="qiankun/examples/react16/dist/react16.e31bb0bc.js"></script>
-// </body>
-// </html>
-// `,
-//       },
-      entry: '//localhost:7100',
+      entry: process.env.NODE_ENV === 'development' ? '//localhost:7100' : (process.env.NODE_ENV === 'production' ? {
+        html: code_react,
+        scripts: [],
+        styles: [],
+      } : ''),
       render,
-      activeRule: genActiveRule('/react')
+      activeRule: genActiveRule(`${baseUrl}/react`)
     },
     {
       name: 'vue app',
-      entry: '//localhost:7101',
+      entry: process.env.NODE_ENV === 'development' ? '//localhost:7101' : (process.env.NODE_ENV === 'production' ? {
+        html: code_vue,
+        scripts: [],
+        styles: [],
+      } : ''),
       render,
-      activeRule: genActiveRule('/vue')
+      activeRule: genActiveRule(`${baseUrl}/vue`)
     },
   ],
   {
@@ -65,7 +85,7 @@ registerMicroApps(
   },
 );
 
-setDefaultMountApp('/react');
+setDefaultMountApp(`${baseUrl + mode === 'hash' ? '#' : ''}/react`);
 runAfterFirstMounted(() => console.info('first app mounted'));
 
 start();

@@ -9,7 +9,7 @@
     "build": "lerna run build",
     "clean": "lerna clean",
     "precommit": "lint-staged",
-    "deploy": "gh-pages -d _site"
+    "deploy": "node deploy.js"
   },
   "lint-staged": {
     "**/*.{js,ts,json,css,md}": [
@@ -57,7 +57,8 @@
     "postcss-modules": "^1.4.1",
     "check-prettier": "^1.0.3",
     "lint-staged": "^9.4.2",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "fs-extra": "^8.1.0"
   },
   "engines": {
     "node": ">= 4.0.0",
